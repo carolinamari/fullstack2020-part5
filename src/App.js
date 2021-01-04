@@ -13,7 +13,28 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [notificationStyle, setNotificationStyle] = useState(null)
+
+  const sucessStyle = {
+    color: '#C4FF7A',
+    fontSize: 20,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+    textAlign: 'center'
+  }
+
+  const errorStyle = {
+    color: '#FF9674',
+    fontSize: 20,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+    textAlign: 'center'
+}
 
   const handleUsernameChange = ({ target }) => setUsername(target.value)
   const handlePasswordChange = ({ target }) => setPassword(target.value)
@@ -34,8 +55,9 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
-      setTimeout(() => setErrorMessage(null), 5000)
+      setNotificationStyle(errorStyle)
+      setNotificationMessage('Wrong credentials')
+      setTimeout(() => setNotificationMessage(null), 5000)
     }
   }
 
@@ -59,8 +81,15 @@ const App = () => {
       setNewBlogTitle('')
       setNewBlogAuthor('')
       setNewBlogURL('')
+      setNotificationStyle(sucessStyle)
+      setNotificationMessage(`A new blog '${addedBlog.title}' by ${addedBlog.author} added!`)
+      setTimeout(() => setNotificationMessage(null), 5000)
     } catch (exception) {
-      //
+      console.log(exception);
+    
+      setNotificationStyle(errorStyle)
+      setNotificationMessage('A problem occured while trying to add new blog.')
+      setTimeout(() => setNotificationMessage(null), 5000)
     }
   }
 
@@ -82,7 +111,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage}/>
+      <Notification message={notificationMessage} customStyle={notificationStyle}/>
       { user === null ? 
         <Login handleLogin={handleLogin} username={username} password={password} 
                handleUsernameChange={handleUsernameChange} 
