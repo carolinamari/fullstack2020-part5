@@ -80,6 +80,23 @@ const App = () => {
     }
   }
 
+  const handleLikeButton = async (id, blog) => {
+    try {
+      const updatedBlog = await blogService.updateBlog(id, blog)
+      setBlogs(blogs.map(blog => blog.id === updatedBlog.id ? updatedBlog : blog))
+
+      setNotificationStyle(sucessStyle)
+      setNotificationMessage(`The blog '${updatedBlog.title}' by ${updatedBlog.author} was updated!`)
+      setTimeout(() => setNotificationMessage(null), 5000)
+    } catch (exception) {
+      console.log(exception);
+    
+      setNotificationStyle(errorStyle)
+      setNotificationMessage('A problem occured while trying to like the blog.')
+      setTimeout(() => setNotificationMessage(null), 5000)
+    }
+  }
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
@@ -105,7 +122,7 @@ const App = () => {
                handlePasswordChange={handlePasswordChange} 
         /> :
         <Blogs user={user} blogs={blogs} handleLogout={handleLogout} blogFormRef={blogFormRef}
-               handleBlogCreation={handleBlogCreation}/>
+               handleBlogCreation={handleBlogCreation} handleLikeButton={handleLikeButton}/>
       }
     </div>
   )
