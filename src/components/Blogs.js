@@ -9,7 +9,7 @@ const Blogs = (props) => {
         <div>
             <h2>Blogs</h2>
             <p>{props.user.name} is logged in. <Logout handleLogout={props.handleLogout}/></p>
-            <Togglable buttonLabel='New blog' ref={props.blogFormRef}>
+            <Togglable buttonLabel='Create new blog' ref={props.blogFormRef}>
                 <BlogForm handleBlogCreation={props.handleBlogCreation}></BlogForm>
             </Togglable>
             { props.blogs.map(blog => <Blog key={blog.id} blog={blog}/>) }
