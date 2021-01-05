@@ -5,6 +5,10 @@ import Togglable from './Togglable'
 import Logout from './Logout'
 
 const Blogs = (props) => {
+    const sortedBlogs = props.blogs.sort((blog1, blog2) => {
+        return blog2.likes - blog1.likes
+    })
+
     return (
         <div>
             <h2>Blogs</h2>
@@ -12,7 +16,7 @@ const Blogs = (props) => {
             <Togglable buttonLabel='Create new blog' ref={props.blogFormRef}>
                 <BlogForm handleBlogCreation={props.handleBlogCreation}></BlogForm>
             </Togglable>
-            { props.blogs.map(blog => <Blog key={blog.id} blog={blog} handleLikeButton={props.handleLikeButton}/>) }
+            { sortedBlogs.map(blog => <Blog key={blog.id} blog={blog} handleLikeButton={props.handleLikeButton}/>) }
         </div>
     )
 }
