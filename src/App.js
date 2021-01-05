@@ -97,6 +97,23 @@ const App = () => {
     }
   }
 
+  const handleBlogRemoval = async (blogToRemove) => {
+    try {
+      await blogService.deleteBlog(blogToRemove.id)
+      setBlogs(blogs.filter(blog => blog.id !== blogToRemove.id))
+
+      setNotificationStyle(sucessStyle)
+      setNotificationMessage(`The blog '${blogToRemove.title}' by ${blogToRemove.author} was removed!`)
+      setTimeout(() => setNotificationMessage(null), 5000)
+    } catch (exception) {
+      console.log(exception);
+    
+      setNotificationStyle(errorStyle)
+      setNotificationMessage('A problem occured while trying to remove the blog.')
+      setTimeout(() => setNotificationMessage(null), 5000)
+    }
+  }
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
@@ -122,7 +139,8 @@ const App = () => {
                handlePasswordChange={handlePasswordChange} 
         /> :
         <Blogs user={user} blogs={blogs} handleLogout={handleLogout} blogFormRef={blogFormRef}
-               handleBlogCreation={handleBlogCreation} handleLikeButton={handleLikeButton}/>
+               handleBlogCreation={handleBlogCreation} handleLikeButton={handleLikeButton}
+               handleBlogRemoval={handleBlogRemoval}/>
       }
     </div>
   )
