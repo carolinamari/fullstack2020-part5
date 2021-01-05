@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Blogs from './components/Blogs'
 import Login from './components/Login'
 import Notification from './components/Notification'
@@ -34,7 +34,9 @@ const App = () => {
     padding: 10,
     marginBottom: 10,
     textAlign: 'center'
-}
+  }
+
+  const blogFormRef = useRef()
 
   const handleUsernameChange = ({ target }) => setUsername(target.value)
   const handlePasswordChange = ({ target }) => setPassword(target.value)
@@ -81,6 +83,7 @@ const App = () => {
       setNewBlogTitle('')
       setNewBlogAuthor('')
       setNewBlogURL('')
+      blogFormRef.current.toggleVisibility()
       setNotificationStyle(sucessStyle)
       setNotificationMessage(`A new blog '${addedBlog.title}' by ${addedBlog.author} added!`)
       setTimeout(() => setNotificationMessage(null), 5000)
@@ -117,7 +120,7 @@ const App = () => {
                handleUsernameChange={handleUsernameChange} 
                handlePasswordChange={handlePasswordChange} 
         /> :
-        <Blogs user={user} blogs={blogs} handleLogout={handleLogout}
+        <Blogs user={user} blogs={blogs} handleLogout={handleLogout} blogFormRef={blogFormRef}
                title={newBlogTitle} author={newBlogAuthor} url={newBlogURL}
                handleBlogCreation={handleBlogCreation} 
                handleTitleChange={handleTitleChange}
