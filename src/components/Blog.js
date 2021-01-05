@@ -7,7 +7,7 @@ const Blog = ({ blog, user, handleLikeButton, handleBlogRemoval }) => {
     const showWhenVisible = { display: visible ? '' : 'none' }
     const hideWhenVisible = { display: visible ? 'none' : '' }
     const allowRemoval = { display: blog.userId.username === user.username ? '' : 'none' }
-    
+
     const toggleVisibility = () => {
         setVisibility(!visible)
     }
@@ -24,7 +24,7 @@ const Blog = ({ blog, user, handleLikeButton, handleBlogRemoval }) => {
         handleLikeButton(blog.id, updatedBlog)
     }
 
-    const removeBlog = () => {        
+    const removeBlog = () => {
         const confirmDelete = window.confirm(`Remove '${blog.title}' by ${blog.author}?`)
 
         if (confirmDelete) {
@@ -39,7 +39,7 @@ const Blog = ({ blog, user, handleLikeButton, handleBlogRemoval }) => {
         borderWidth: 1,
         marginBottom: 5
     }
-    
+
     return (
         <div style={blogStyle}>
             <h4>

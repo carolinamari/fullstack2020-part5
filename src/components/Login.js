@@ -6,11 +6,11 @@ const Login = ({ handleLogin, username, password, handleUsernameChange, handlePa
             <h2>Log in to application</h2>
             <form onSubmit={handleLogin}>
                 <p>
-                    Username: 
+                    Username:
                     <input type="text" value={username} name="Username" onChange={handleUsernameChange}></input>
                 </p>
                 <p>
-                    Password: 
+                    Password:
                     <input type="password" value={password} name="Password" onChange={handlePasswordChange}></input>
                 </p>
                 <button type="submit">Login</button>

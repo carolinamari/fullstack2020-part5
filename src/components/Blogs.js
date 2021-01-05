@@ -16,10 +16,10 @@ const Blogs = (props) => {
             <Togglable buttonLabel='Create new blog' ref={props.blogFormRef}>
                 <BlogForm handleBlogCreation={props.handleBlogCreation}></BlogForm>
             </Togglable>
-            { sortedBlogs.map(blog => 
+            { sortedBlogs.map(blog =>
                 <Blog key={blog.id} blog={blog} user={props.user}
-                      handleLikeButton={props.handleLikeButton}
-                      handleBlogRemoval={props.handleBlogRemoval}/>
+                    handleLikeButton={props.handleLikeButton}
+                    handleBlogRemoval={props.handleBlogRemoval}/>
             )}
         </div>
     )
