@@ -30,15 +30,15 @@ const BlogForm = ({ handleBlogCreation }) => {
             <form onSubmit={addBlog}>
                 <p>
                     Title:
-                    <input type="text" value={newBlogTitle} name="BlogTitle" onChange={handleTitleChange}></input>
+                    <input type="text" value={newBlogTitle} name="BlogTitle" onChange={handleTitleChange} id='title'></input>
                 </p>
                 <p>
                     Author:
-                    <input type="text" value={newBlogAuthor} name="BlogAuthor" onChange={handleAuthorChange}></input>
+                    <input type="text" value={newBlogAuthor} name="BlogAuthor" onChange={handleAuthorChange} id='author'></input>
                 </p>
                 <p>
                     URL:
-                    <input type="text" value={newBlogURL} name="BlogURL" onChange={handleURLChange}></input>
+                    <input type="text" value={newBlogURL} name="BlogURL" onChange={handleURLChange} id='url'></input>
                 </p>
                 <button type="submit">Create</button>
             </form>
