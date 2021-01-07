@@ -2,12 +2,11 @@ describe('Blog app', function() {
     beforeEach(function() {
         cy.request('POST', 'http://localhost:3001/api/testing/reset')
 
-        const user = {
+        cy.addUser({
             username: 'admin',
             name: 'Admin',
             password: 'password'
-        }
-        cy.request('POST', 'http://localhost:3001/api/users/', user)
+        })
 
         cy.visit('http://localhost:3000')
     })
@@ -34,6 +33,8 @@ describe('Blog app', function() {
             cy.get('.notification')
                 .should('contain', 'Wrong credentials')
                 .and('have.css', 'color', 'rgb(255, 150, 116)')
+
+            cy.get('html').should('not.contain', 'Admin is logged in')
         })
     })
 
@@ -64,6 +65,41 @@ describe('Blog app', function() {
             cy.contains('New blog Cypress').parent().find('#view-button').click()
             cy.contains('New blog Cypress').parent().find('#like-button').click()
             cy.contains('New blog Cypress').parent().contains('Likes: 1')
+        })
+
+        describe('Deleting blogs', function() {
+            beforeEach(function() {
+                cy.createBlog({
+                    blogTitle: 'New blog',
+                    blogAuthor: 'Cypress',
+                    blogUrl: 'https://docs.cypress.io'
+                })
+            })
+
+            it('The user who created a blog can delete it', function() {
+                cy.contains('New blog Cypress').parent().find('#view-button').click()
+                cy.contains('New blog Cypress').parent().find('#remove-button').click()
+                cy.on('window:confirm', function() { true })
+
+                cy.get('.notification')
+                    .should('contain', "The blog 'New blog' by Cypress was removed!")
+                    .and('have.css', 'color', 'rgb(196, 255, 122)')
+                cy.get('html').should('not.contain', 'New blog Cypress')
+            })
+
+            it('The user who did not create the blog cannot delete it', function() {
+                cy.contains('Logout').click()
+
+                cy.addUser({
+                    username: 'anotherUser',
+                    name: 'User 2',
+                    password: 'password'
+                })
+
+                cy.login({ username: 'anotherUser', password: 'password' })
+                cy.contains('New blog Cypress').parent().find('#view-button').click()
+                cy.contains('New blog Cypress').parent().find('#remove-button').parent().should('have.css', 'display', 'none')
+            })
         })
     })
 })
