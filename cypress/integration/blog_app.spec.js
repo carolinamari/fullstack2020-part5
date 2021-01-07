@@ -53,5 +53,17 @@ describe('Blog app', function() {
             cy.contains('New blog Cypress').parent().find('#view-button').click()
             cy.contains('URL: https://docs.cypress.io')
         })
+
+        it('A blog can be liked', function() {
+            cy.createBlog({
+                blogTitle: 'New blog',
+                blogAuthor: 'Cypress',
+                blogUrl: 'https://docs.cypress.io'
+            })
+
+            cy.contains('New blog Cypress').parent().find('#view-button').click()
+            cy.contains('New blog Cypress').parent().find('#like-button').click()
+            cy.contains('New blog Cypress').parent().contains('Likes: 1')
+        })
     })
 })
