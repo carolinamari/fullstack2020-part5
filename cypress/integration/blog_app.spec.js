@@ -1,3 +1,5 @@
+import { number } from "prop-types"
+
 describe('Blog app', function() {
     beforeEach(function() {
         cy.request('POST', 'http://localhost:3001/api/testing/reset')
@@ -99,6 +101,40 @@ describe('Blog app', function() {
                 cy.login({ username: 'anotherUser', password: 'password' })
                 cy.contains('New blog Cypress').parent().find('#view-button').click()
                 cy.contains('New blog Cypress').parent().find('#remove-button').parent().should('have.css', 'display', 'none')
+            })
+        })
+
+        it('Blogs are ordered according to likes', function() {
+            cy.createBlog({
+                blogTitle: 'Most liked blog',
+                blogAuthor: 'Cypress',
+                blogUrl: 'https://docs.cypress.io',
+                blogLikes: 100
+            })
+
+            cy.createBlog({
+                blogTitle: 'Least liked blog',
+                blogAuthor: 'Cypress',
+                blogUrl: 'https://docs.cypress.io',
+                blogLikes: 10
+            })
+
+            cy.createBlog({
+                blogTitle: 'Kind of liked blog',
+                blogAuthor: 'Cypress',
+                blogUrl: 'https://docs.cypress.io',
+                blogLikes: 50
+            })
+
+            cy.get('.likes').then(function(blogList) {
+                const likes = blogList.map((i, blog) => {
+                    const blogLikes = blog.innerHTML.split(' ')[1]
+                    return parseInt(blogLikes)
+                })
+
+                for (let i = 0; i < likes.length - 1; i++) {
+                    expect(likes[i]).to.be.greaterThan(likes[i + 1])
+                }
             })
         })
     })

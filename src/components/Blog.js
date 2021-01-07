@@ -48,7 +48,7 @@ const Blog = ({ blog, user, handleLikeButton, handleBlogRemoval }) => {
             <button id='view-button' style={hideWhenVisible} onClick={toggleVisibility}>View</button>
             <div style={showWhenVisible} className='togglableContent'>
                 <p>URL: {blog.url}</p>
-                <p>Likes: {blog.likes} <button id='like-button' onClick={likeBlog}>Like</button></p>
+                <p className='likes'>Likes: {blog.likes} <button id='like-button' onClick={likeBlog}>Like</button></p>
                 <p>Added by: {blog.userId.name}</p>
                 <p style={allowRemoval}>
                     <button id='remove-button' onClick={removeBlog}>Remove</button>
